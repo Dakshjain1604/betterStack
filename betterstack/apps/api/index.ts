@@ -1,6 +1,6 @@
 import express, {  Request, Response } from 'express';
 const app=express();
-import {prismaClient} from "../../packages/store/generated/prisma"
+import prismaClient from 'store';
 app.use(express.json())
 
 app.get('/',(req:Request,res:Response)=>{
@@ -11,6 +11,12 @@ app.get('/',(req:Request,res:Response)=>{
 
 
 app.post('/website',async (req,res)=>{
+	if(!req.body.url){
+		res.status(411).json({
+
+		})
+		return;
+	}
 	prismaClient.website.create({
 		data:{
 			url:req.body.url,
